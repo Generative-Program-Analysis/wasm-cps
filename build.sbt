@@ -10,6 +10,7 @@ lazy val root = project
 
     libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test",
     libraryDependencies += "org.scala-lang" %% "scala3-staging" % scalaVersion.value,
+    libraryDependencies += "org.antlr" % "antlr4-runtime" % "4.13.0"
   )
 
 scalacOptions ++= Seq(

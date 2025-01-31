@@ -11,7 +11,7 @@ class TestSyntax extends AnyFunSuite {
   }
 
   test("basic script") {
-    testFile("./benchmarks/wasm/script/script_basic.wabt")
+    testFile("./benchmarks/wasm/script/script_basic.wast")
   }
 }
 

@@ -31,8 +31,8 @@ jobs:
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -y perl minisat curl gnupg2 locales clang-11 wget
     - name: Install wasmfx-tools
       run: |
-        #cd third-party/wasmfx-tools
-        #cargo build --release
+        cd third-party/wasmfx-tools
+        cargo build --release
     - name: Run tests
       run: |
         sbt 'test'

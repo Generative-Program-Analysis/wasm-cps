@@ -14,6 +14,19 @@ lazy val root = project
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test
   )
 
+fork := true
+val commonJavaOptions = Seq(
+  "-Xms4G",
+  "-Xmx32G",
+  "-Xss1024M",
+  "-XX:MaxMetaspaceSize=8G",
+  "-XX:ReservedCodeCacheSize=2048M"
+)
+run / javaOptions ++= commonJavaOptions
+Test / javaOptions ++= commonJavaOptions
+
+Test / parallelExecution := false
+
 scalacOptions ++= Seq(
   "-Xcheck-macros",
   "-explain"

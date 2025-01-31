@@ -1,0 +1,42 @@
+name: Scala CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./
+
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+    - name: Set up dependencies
+      run: |
+        sudo apt-get update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y git g++ cmake bison flex libboost-all-dev python
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y perl minisat curl gnupg2 locales clang-11 wget
+    - name: Install wasmfx-tools
+      run: |
+        #cd third-party/wasmfx-tools
+        #cargo build --release
+    - name: Run tests
+      run: |
+        sbt 'test'
+        #sbt 'testOnly wasm.TestEval'
+        #sbt 'testOnly wasm.TestScriptRun'
+        #sbt 'testOnly wasm.TestTFP'
+        #sbt 'testOnly wasm.TestFX'

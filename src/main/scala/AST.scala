@@ -61,9 +61,14 @@ case object Drop extends Instr
 case object Alloc extends Instr
 case object Free extends Instr
 case class Select(ty: Option[List[ValueType]]) extends Instr
-case class Block(ty: BlockType, instrs: List[Instr]) extends Instr
+case class Block(ty: BlockType, instrs: List[Instr]) extends Instr {
+  override def toString: String = s"Block(...)"
+}
 case class IdBlock(id: Int, ty: BlockType, instrs: List[Instr]) extends Instr
-case class Loop(ty: BlockType, instrs: List[Instr]) extends Instr
+case class Loop(ty: BlockType, instrs: List[Instr]) extends Instr {
+  override def toString: String = s"Loop(...)"
+}
+case class ForLoop(init:List[Instr], cond: List[Instr], post: List[Instr], body: List[Instr]) extends Instr
 case class IdLoop(id: Int, ty: BlockType, instrs: List[Instr]) extends Instr
 case class If(ty: BlockType, thenInstrs: List[Instr], elseInstrs: List[Instr]) extends Instr
 case class IdIf(ty: BlockType, thenInstrs: IdBlock, elseInstrs: IdBlock) extends Instr
@@ -281,10 +286,11 @@ case class CmdModule(module: Module) extends Cmd
 // TODO: extend if needed
 case class CMdInstnace() extends Cmd
 
-abstract class Action extends WIR
+abstract class Action extends Cmd
 case class Invoke(instName: Option[String], name: String, args: List[Value]) extends Action
 
 abstract class Assertion extends Cmd
+case class AssertInvalid() extends Assertion
 case class AssertReturn(action: Action, expect: List[Num] /* TODO: support multiple expect result type*/)
     extends Assertion
 case class AssertTrap(action: Action, message: String) extends Assertion
@@ -324,10 +330,7 @@ case class RefFuncV(funcAddr: Int) extends Ref {
       case FuncDef(_, FuncBodyDef(ty, _, _, _)) => RefType(ty)
     }
 }
-// RefContV refers to a delimited continuation
-// case class RefContV(cont: List[Value] => List[Value]) extends Ref {
-//   def tipe(implicit m: ModuleInstance): ValueType = ???
-// }
+
 case class RefExternV(externAddr: Int) extends Ref {
   def tipe(implicit m: ModuleInstance): ValueType = ???
 }

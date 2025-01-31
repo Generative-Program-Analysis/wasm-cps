@@ -1,0 +1,3 @@
+[submodule "third-party/wasmfx-tools"]
+	path = third-party/wasmfx-tools
+	url = https://github.com/wasmfx/wasmfx-tools.git

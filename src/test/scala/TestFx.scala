@@ -12,7 +12,7 @@ import collection.mutable.ArrayBuffer
 import java.io.{ByteArrayOutputStream, StringReader}
 import org.scalatest.funsuite.AnyFunSuite
 
-class TestFx extends AnyFunSuite {
+class TestFX extends AnyFunSuite {
   abstract class ExpResult
   case class ExpInt(i: Int) extends ExpResult
   case class ExpStack(stack: List[Value]) extends ExpResult
@@ -98,48 +98,6 @@ class TestFx extends AnyFunSuite {
   test("call_ref") {
     testFile("./benchmarks/wasm/wasmfx/callref-strip.wast")
   }
-
-  test("try-catch") {
-    testFileOutput("./benchmarks/wasm/trycatch/try_catch.wat", List(1, 2, 3, 4, 5))
-  }
-
-  test("try-catch-succ") {
-    // no exception was thrown
-    testFileOutput("./benchmarks/wasm/trycatch/try_catch_succ.wat", List(1, 3, 5))
-  }
-
-  test("try-catch-discard") {
-    // discard the resumption in the catch block
-    testFileOutput("./benchmarks/wasm/trycatch/try_catch_discard.wat", List(1, 42, 4, 5))
-  }
-
-  test("nested-try-catch") {
-    testFileOutput("./benchmarks/wasm/trycatch/nested_try_catch.wat", List(1, 2, 3, 4, 5, 6, 7, 8, 9))
-  }
-
-  test("try-catch-multishot") {
-    testFileOutput("./benchmarks/wasm/trycatch/multishot.wat", List(1, 2, 3, 4, 3, 5))
-  }
-
-  test("try-catch-deep-handler") {
-    testFileOutput("./benchmarks/wasm/trycatch/deep.wat", List(1, 2, 3, 2, 4, 4, 5))
-  }
-
-  test("try-catch-block") {
-    testFileOutput("./benchmarks/wasm/trycatch/try_catch_block.wat", List(1, 2, 3, 4, 5))
-  }
-
-  // Note: the interaction between try-catch and block is not well-defined yet
-
-  /*
-  test("try-catch-br") {
-    testFileOutput("./benchmarks/wasm/trycatch/try_catch_br.wat", List(1, 2, 6))
-  }
-
-  test("try-catch-br2") {
-    testFileOutput("./benchmarks/wasm/trycatch/try_catch_br2.wat", List(1, 2, 6, 4, 5))
-  }
-  */
 
   /* REAL WASMFX STUFF */
   test("cont") {

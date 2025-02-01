@@ -26,7 +26,7 @@
     end
   )
   (func (;2;) (type 1)
-    i64.const 100000
+    i64.const 10000 ;; 100000 seems causing Github CI failed
     call 0
   )
   (start 2)

@@ -1,0 +1,3 @@
+*.wasm
+!2o1u.wat
+!2o1u-no-label.wat

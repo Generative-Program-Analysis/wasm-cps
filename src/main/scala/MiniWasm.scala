@@ -26,15 +26,9 @@ case class Evaluator(module: ModuleInstance) {
         val newStack = stack.drop(ty.inps.size)
         val frameLocals = args ++ locals.map(zero(_))
         val newFrame = Frame(ArrayBuffer(frameLocals: _*))
-        if (isTail)
-          // when tail call, share the continuation for returning with the callee
-          eval(body, List(), newFrame, kont, List(kont))
-        else
-          val restK: Cont[Ans] = (retStack) =>
-            eval(rest, retStack.take(ty.out.size) ++ newStack, frame, kont, trail)
-          // We make a new trail by `restK`, since function creates a new block to escape
-          // (more or less like `return`)
-          eval(body, List(), newFrame, restK, List(restK))
+        val restK: Cont[Ans] = (retStack) =>
+          eval(rest, retStack.take(ty.out.size) ++ newStack, frame, kont, trail)
+        eval(body, List(), newFrame, restK, List(restK))
       case Import("console", "log", _) =>
         val I32V(v) :: newStack = stack
         println(v)
@@ -166,9 +160,7 @@ case class Evaluator(module: ModuleInstance) {
         trail(goto)(newStack)
       case Return        => trail.last(stack)
       case Call(f)       => evalCall(rest, stack, frame, kont, trail, f, false)
-      case _ =>
-        println(inst)
-        throw new Exception(s"instruction $inst not implemented")
+      case _             => throw new Exception(s"instruction $inst not implemented")
 
   // If `main` is given, then we use that function as the entry point of the program;
   // otherwise, we look up the top-level `start` instruction to locate the entry point.

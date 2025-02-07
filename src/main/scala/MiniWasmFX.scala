@@ -8,39 +8,33 @@ import scala.collection.mutable.HashMap
 import Console.{GREEN, RED, RESET, YELLOW_B, UNDERLINED}
 
 case class EvaluatorFX(module: ModuleInstance) {
-  import Primtives._
   implicit val m: ModuleInstance = module
 
   type Stack = List[Value]
 
-  trait Cont[A] {
+  trait Cont[A]:
     def apply(stack: Stack, trail: Trail[A], handler: Handlers[A]): A
-  }
   type Trail[A] = List[(Cont[A], List[Int])] // trail items are pairs of continuation and tags
   type MCont[A] = Stack => A
 
   type Handler[A] = Stack => A
   type Handlers[A] = List[(Int, Handler[A])]
 
-  case class ContV[A](k: (Stack, Cont[A], Trail[A], Handlers[A]) => A) extends Value {
+  case class ContV[A](k: (Stack, Cont[A], Trail[A], Handlers[A]) => A) extends Value:
     def tipe(implicit m: ModuleInstance): ValueType = ???
-
-    // override def toString: String = "ContV"
-  }
 
   // initK is a continuation that simply returns the inputed stack
   def initK[Ans](s: Stack, trail: Trail[Ans], hs: Handlers[Ans]): Ans =
-    trail match {
+    trail match
       // Currently, the last element of the Trail is the halt continuation
       // the exception will never be thrown
       case (k1, _) :: trail => k1(s, trail, hs)
       case Nil => throw new Exception("No halting continuation in trail")
-    }
 
   def eval1[Ans](inst: Instr, stack: Stack, frame: Frame, kont: Cont[Ans],
-                 trail: Trail[Ans], brTable: List[Cont[Ans]], hs: Handlers[Ans]): Ans = {
+                 trail: Trail[Ans], brTable: List[Cont[Ans]], hs: Handlers[Ans]): Ans =
     // System.err.println(f"[DEBUG] ${inst} | ${frame} | ${stack.reverse} | handlers: ${hs}");
-    inst match {
+    inst match
       case Drop => kont(stack.tail, trail, hs)
       case Select(_) =>
         val I32V(cond) :: v2 :: v1 :: newStack = stack
@@ -60,12 +54,11 @@ case class EvaluatorFX(module: ModuleInstance) {
         kont(module.globals(i).value :: stack, trail, hs)
       case GlobalSet(i) =>
         val value :: newStack = stack
-        module.globals(i).ty match {
+        module.globals(i).ty match
           case GlobalType(tipe, true) if value.tipe == tipe =>
             module.globals(i).value = value
           case GlobalType(_, true) => throw new Exception("Invalid type")
           case _                   => throw new Exception("Cannot set immutable global")
-        }
         kont(newStack, trail, hs)
       case MemorySize =>
         kont(I32V(module.memory.head.size) :: stack, trail, hs)
@@ -73,26 +66,23 @@ case class EvaluatorFX(module: ModuleInstance) {
         val I32V(delta) :: newStack = stack
         val mem = module.memory.head
         val oldSize = mem.size
-        mem.grow(delta) match {
+        mem.grow(delta) match
           case Some(e) => kont(I32V(-1) :: newStack, trail, hs)
           case _ => kont(I32V(oldSize) :: newStack, trail, hs)
-        }
       case MemoryFill =>
         val I32V(value) :: I32V(offset) :: I32V(size) :: newStack = stack
         if (memOutOfBound(module, 0, offset, size))
           throw new Exception("Out of bounds memory access") // GW: turn this into a `trap`?
-        else {
+        else
           module.memory.head.fill(offset, size, value.toByte)
           kont(newStack, trail, hs)
-        }
       case MemoryCopy =>
         val I32V(n) :: I32V(src) :: I32V(dest) :: newStack = stack
         if (memOutOfBound(module, 0, src, n) || memOutOfBound(module, 0, dest, n))
           throw new Exception("Out of bounds memory access")
-        else {
+        else
           module.memory.head.copy(dest, src, n)
           kont(newStack, trail, hs)
-        }
       case Const(n) => kont(n :: stack, trail, hs)
       case Binary(op) =>
         val v2 :: v1 :: newStack = stack
@@ -157,16 +147,15 @@ case class EvaluatorFX(module: ModuleInstance) {
       // WasmFX effect handlers:
       case ContNew(ty) =>
         val RefFuncV(f) :: newStack = stack
-        def kr(s: Stack, k1: Cont[Ans], t1: Trail[Ans], hs: Handlers[Ans]): Ans = {
+        def kr(s: Stack, k1: Cont[Ans], t1: Trail[Ans], hs: Handlers[Ans]): Ans =
           evalCall1(f, s, frame/*?*/, k1, t1, List(), hs, false)
-        }
         kont(ContV(kr) :: newStack, trail, hs)
       case Suspend(tagId) =>
         val FuncType(_, inps, out) = module.tags(tagId)
         val (inputs, restStack) = stack.splitAt(inps.size)
         // System.err.println(s"[DEBUG] handlers: $hs")
         // System.err.println(s"[DEBUG] trail: $trail")
-        val kr = (s: Stack, _: Cont[Ans], t1: Trail[Ans], hs1: Handlers[Ans]) => {
+        val kr = (s: Stack, _: Cont[Ans], t1: Trail[Ans], hs1: Handlers[Ans]) =>
           // construct a new trail by ignoring the default handler
           val index = trail.indexWhere { case (_, tags) => tags.contains(tagId) }
           val newTrail = if (index >= 0) trail.take(index) else trail
@@ -176,14 +165,12 @@ case class EvaluatorFX(module: ModuleInstance) {
           // A: Yes, we should maintain the consistency between `hs1` and `newTrail + t1`.
           // mkont lost here, and it's safe if we never modify it
           kont(s ++ restStack, newTrail.map({ case (c, _) => (c, List()) }) ++ t1, hs1)
-        }
         val newStack = ContV(kr) :: inputs
-        hs.find(_._1 == tagId) match {
+        hs.find(_._1 == tagId) match
           case Some((_, handler)) =>
             // we don't need to pass trail here, because handler's trail was determined when resuming
             handler(newStack)
           case None               => throw new Exception(s"no handler for tag $tagId")
-        }
       case Resume(tyId, handler) =>
         val (f: ContV[Ans]) :: newStack = stack
         val ContType(funcTypeId) = module.types(tyId)
@@ -209,9 +196,8 @@ case class EvaluatorFX(module: ModuleInstance) {
         val inputSize = oldParamTy.size - newParamTy.size
         val (inputs, restStack) = newStack.splitAt(inputSize)
         // partially apply the old continuation
-        def kr(s: Stack, k1: Cont[Ans], t1: Trail[Ans], handlers: Handlers[Ans]): Ans = {
+        def kr(s: Stack, k1: Cont[Ans], t1: Trail[Ans], handlers: Handlers[Ans]): Ans =
           f.k(s ++ inputs, k1, t1, handlers)
-        }
         kont(ContV(kr) :: restStack, trail, hs)
 
       case CallRef(ty) =>
@@ -221,18 +207,14 @@ case class EvaluatorFX(module: ModuleInstance) {
       case _ =>
         println(inst)
         throw new Exception(s"instruction $inst not implemented")
-    }
-  }
 
   def evalList[Ans](insts: List[Instr], stack: Stack, frame: Frame, kont: Cont[Ans],
-                    trail1: Trail[Ans], brTable: List[Cont[Ans]], hs: Handlers[Ans]): Ans = {
-    insts match {
+                    trail1: Trail[Ans], brTable: List[Cont[Ans]], hs: Handlers[Ans]): Ans =
+    insts match
       case Nil => kont(stack, trail1, hs)
       case inst :: rest =>
         val newKont: Cont[Ans] = (s1, t1, h1) => evalList(rest, s1, frame, kont, t1, brTable, h1)
         eval1(inst, stack, frame, newKont, trail1, brTable, hs)
-    }
-  }
 
   def evalCall1[Ans](funcIndex: Int,
                      stack: List[Value],
@@ -242,22 +224,20 @@ case class EvaluatorFX(module: ModuleInstance) {
                      brTable: List[Cont[Ans]], // can be removed
                      h: Handlers[Ans],
                      isTail: Boolean): Ans =
-    module.funcs(funcIndex) match {
+    module.funcs(funcIndex) match
       case FuncDef(_, FuncBodyDef(ty, _, locals, body)) =>
         val args = stack.take(ty.inps.size).reverse
         val newStack = stack.drop(ty.inps.size)
         val frameLocals = args ++ locals.map(zero(_))
         val newFrame = Frame(ArrayBuffer(frameLocals: _*))
-        if (isTail) {
+        if (isTail)
           // when tail call, share the continuation for returning with the callee
           evalList(body, List(), newFrame, brTable.last, trail, List(brTable.last), h)
-        }
-        else {
+        else
           val restK: Cont[Ans] = (s1, t1, h1) => kont(s1.take(ty.out.size) ++ newStack, t1, h1)
           // We make a new brTable by `restK`, since function creates a new block to escape
           // (more or less like `return`)
           evalList(body, List(), newFrame, restK, trail, List(restK), h)
-        }
       case Import("console", "log", _) =>
         // println(s"[DEBUG] current stack: $stack")
         val I32V(v) :: newStack = stack
@@ -270,68 +250,20 @@ case class EvaluatorFX(module: ModuleInstance) {
         kont(newStack, trail, h)
       case Import(_, _, _) => throw new Exception(s"Unknown import at $funcIndex")
       case _               => throw new Exception(s"Definition at $funcIndex is not callable")
-    }
 
   // If `main` is given, then we use that function as the entry point of the program;
   // otherwise, we look up the top-level `start` instruction to locate the entry point.
-  def evalTop[Ans](halt: Cont[Ans], main: Option[String] = None): Ans = {
-    val instrs = main match {
-      case Some(func_name) =>
-        module.defs.flatMap({
-          case Export(`func_name`, ExportFunc(fid)) =>
-            System.err.println(s"Entering function $main")
-            module.funcs(fid) match {
-              case FuncDef(_, FuncBodyDef(_, _, locals, body)) => body
-              case _ => throw new Exception("Entry function has no concrete body")
-            }
-          case _ => List()
-        })
-      case None =>
-        module.defs.flatMap({
-          case Start(id) =>
-            System.err.println(s"Entering unnamed function $id")
-            module.funcs(id) match {
-              case FuncDef(_, FuncBodyDef(_, _, locals, body)) => body
-              case _ =>
-                throw new Exception("Entry function has no concrete body")
-            }
-          case _ => List()
-        })
-    }
-    val locals = main match {
-      case Some(func_name) =>
-        module.defs.flatMap({
-          case Export(`func_name`, ExportFunc(fid)) =>
-            System.err.println(s"Entering function $main")
-            module.funcs(fid) match {
-              case FuncDef(_, FuncBodyDef(_, _, locals, _)) => locals
-              case _ => throw new Exception("Entry function has no concrete body")
-            }
-          case _ => List()
-        })
-      case None =>
-        module.defs.flatMap({
-          case Start(id) =>
-            System.err.println(s"Entering unnamed function $id")
-            module.funcs(id) match {
-              case FuncDef(_, FuncBodyDef(_, _, locals, body)) => locals
-              case _ =>
-                throw new Exception("Entry function has no concrete body")
-            }
-          case _ => List()
-        })
-    }
+  def evalTop[Ans](halt: Cont[Ans], main: Option[String] = None): Ans =
+    val instrs = extractMainInstrs(module, main)
+    val locals = extractLocals(module, main)
     if (instrs.isEmpty) println("Warning: nothing is executed")
     // initialized locals
     val frame = Frame(ArrayBuffer(locals.map(zero(_)): _*))
     evalList(instrs, List(), frame, initK[Ans], List((halt, List())), List(initK: Cont[Ans]), List())
-  }
 
   def evalTop(m: ModuleInstance): Unit =
     evalTop(((stack, trail, _hs) => {
-      if (!trail.isEmpty) {
-        throw new Exception("Composing something after halt continuation")
-      }
+      if (!trail.isEmpty) throw new Exception("Composing something after halt continuation")
     }): Cont[Unit])
 }
 

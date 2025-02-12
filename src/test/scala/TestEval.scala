@@ -4,6 +4,7 @@ import wasm.ast._
 import wasm.parser._
 import wasm.memory._
 import wasm.miniwasm._
+import wasm.miniwasmscript.ScriptRunner
 import collection.mutable.ArrayBuffer
 
 import org.scalatest.funsuite.AnyFunSuite
@@ -29,6 +30,12 @@ class TestEval extends AnyFunSuite {
       }
     }
     evaluator.evalTop(haltK, main)
+  }
+
+  def testWastFile(filename: String): Unit = {
+    val script = Parser.parseScriptFile(filename).get
+    val runner = new ScriptRunner()
+    runner.run(script)
   }
 
   // TODO: the power test can be used to test the stack
@@ -72,6 +79,31 @@ class TestEval extends AnyFunSuite {
     testFile("./benchmarks/wasm/wasmfx/cont1-stripped.wat")
   }
 
+  // Spec tests
+  test("spectest_block") {
+    testWastFile("./benchmarks/wasm/spectest/block.bin.wast")
+  }
+
+  // test("spectest_br_if") {
+  //   testWastFile("./benchmarks/wasm/spectest/br_if.bin.wast")
+  // }
+
+  // test("spectest_br") {
+  //   testWastFile("./benchmarks/wasm/spectest/return_call.bin.wast")
+  // }
+
+  // test("spectest_call") {
+  //   testWastFile("./benchmarks/wasm/spectest/call.bin.wast")
+  // }
+
+  // test("spectest_loop") {
+  //   testWastFile("./benchmarks/wasm/spectest/loop.bin.wast")
+  // }
+
+  // test("spectest_return") {
+  //   testWastFile("./benchmarks/wasm/spectest/return.bin.wast")
+  // }
+  
   // can parse this file,
   // but there's no support for ref.func, cont.new, suspend, resume to run it yet
   // test("gen") {

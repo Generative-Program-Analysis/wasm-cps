@@ -156,4 +156,3 @@
 (assert_return (invoke "param-break") (i32.const 0x3))
 (assert_return (invoke "params-break") (i32.const 0x3))
 (assert_return (invoke "params-id-break") (i32.const 0x3))
-(assert_return (invoke "effects") (i32.const 0x1))

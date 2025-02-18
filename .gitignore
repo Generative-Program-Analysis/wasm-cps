@@ -4,3 +4,5 @@
 .vscode/
 project/
 target/
+grammar/antlr-4.13.0-complete.jar
+.bsp

@@ -17,68 +17,68 @@ public class WatParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		LPAR=1, RPAR=2, NAT=3, INT=4, FLOAT=5, STRING_=6, VALUE_TYPE=7, CONST=8,
-		SYMBOLIC=9, FUNCREF=10, EXTERNREF=11, MUT=12, REF=13, CONT=14, NULL=15,
-		NOP=16, SYM_ASSERT=17, ALLOC=18, FREE=19, UNREACHABLE=20, DROP=21, BLOCK=22,
-		LOOP=23, FOR=24, VBAR=25, END=26, BR=27, BR_IF=28, BR_TABLE=29, RETURN=30,
-		IF=31, THEN=32, ELSE=33, SELECT=34, CALL=35, CALL_INDIRECT=36, RETURN_CALL=37,
-		RETURN_CALL_INDIRECT=38, REFFUNC=39, CALLREF=40, RESUME=41, ON=42, CONTNEW=43,
-		CONTBIND=44, SUSPEND=45, REFNULL=46, REFISNULL=47, TRY=48, CATCH=49, THROW=50,
-		RESUME0=51, LOCAL_GET=52, LOCAL_SET=53, LOCAL_TEE=54, GLOBAL_GET=55, GLOBAL_SET=56,
-		LOAD=57, STORE=58, UNDERSCORE=59, OFFSET_EQ=60, ALIGN_EQ=61, SIGN_POSTFIX=62,
-		MEM_SIZE=63, I32=64, I64=65, F32=66, F64=67, IXX=68, FXX=69, OP_EQZ=70,
-		OP_EQ=71, OP_NE=72, OP_LT=73, OP_LTS=74, OP_LTU=75, OP_LE=76, OP_LES=77,
-		OP_LEU=78, OP_GT=79, OP_GTS=80, OP_GTU=81, OP_GE=82, OP_GES=83, OP_GEU=84,
-		OP_CLZ=85, OP_CTZ=86, OP_POPCNT=87, OP_NEG=88, OP_ABS=89, OP_SQRT=90,
-		OP_CEIL=91, OP_FLOOR=92, OP_TRUNC=93, OP_NEAREST=94, OP_ADD=95, OP_SUB=96,
-		OP_MUL=97, OP_DIV=98, OP_DIV_S=99, OP_DIV_U=100, OP_REM_S=101, OP_REM_U=102,
-		OP_AND=103, OP_OR=104, OP_XOR=105, OP_SHL=106, OP_SHR_S=107, OP_SHR_U=108,
-		OP_ROTL=109, OP_ROTR=110, OP_MIN=111, OP_MAX=112, OP_COPYSIGN=113, OP_WRAP=114,
-		OP_TRUNC_=115, OP_TRUNC_SAT=116, OP_CONVERT=117, OP_EXTEND=118, OP_DEMOTE=119,
-		OP_PROMOTE=120, OP_REINTER=121, MEMORY_SIZE=122, MEMORY_GROW=123, MEMORY_FILL=124,
-		MEMORY_COPY=125, MEMORY_INIT=126, TEST=127, COMPARE=128, UNARY=129, BINARY=130,
-		CONVERT=131, TYPE=132, FUNC=133, EXTERN=134, START_=135, PARAM=136, RESULT=137,
-		LOCAL=138, GLOBAL=139, TABLE=140, MEMORY=141, ELEM=142, DATA=143, OFFSET=144,
-		IMPORT=145, EXPORT=146, TAG=147, DECLARE=148, MODULE=149, BIN=150, QUOTE=151,
-		DEFINITION=152, INSTANCE=153, SCRIPT=154, REGISTER=155, INVOKE=156, GET=157,
-		ASSERT_MALFORMED=158, ASSERT_INVALID=159, ASSERT_UNLINKABLE=160, ASSERT_RETURN=161,
-		ASSERT_RETURN_CANONICAL_NAN=162, ASSERT_RETURN_ARITHMETIC_NAN=163, ASSERT_TRAP=164,
-		ASSERT_EXHAUSTION=165, INPUT=166, OUTPUT=167, VAR=168, V128=169, SPACE=170,
+		LPAR=1, RPAR=2, NAT=3, INT=4, FLOAT=5, STRING_=6, VALUE_TYPE=7, CONST=8, 
+		SYMBOLIC=9, FUNCREF=10, EXTERNREF=11, MUT=12, REF=13, CONT=14, NULL=15, 
+		NOP=16, SYM_ASSERT=17, ALLOC=18, FREE=19, UNREACHABLE=20, DROP=21, BLOCK=22, 
+		LOOP=23, FOR=24, VBAR=25, END=26, BR=27, BR_IF=28, BR_TABLE=29, RETURN=30, 
+		IF=31, THEN=32, ELSE=33, SELECT=34, CALL=35, CALL_INDIRECT=36, RETURN_CALL=37, 
+		RETURN_CALL_INDIRECT=38, REFFUNC=39, CALLREF=40, RESUME=41, ON=42, CONTNEW=43, 
+		CONTBIND=44, SUSPEND=45, REFNULL=46, REFISNULL=47, TRY=48, CATCH=49, THROW=50, 
+		RESUME0=51, LOCAL_GET=52, LOCAL_SET=53, LOCAL_TEE=54, GLOBAL_GET=55, GLOBAL_SET=56, 
+		LOAD=57, STORE=58, UNDERSCORE=59, OFFSET_EQ=60, ALIGN_EQ=61, SIGN_POSTFIX=62, 
+		MEM_SIZE=63, I32=64, I64=65, F32=66, F64=67, IXX=68, FXX=69, OP_EQZ=70, 
+		OP_EQ=71, OP_NE=72, OP_LT=73, OP_LTS=74, OP_LTU=75, OP_LE=76, OP_LES=77, 
+		OP_LEU=78, OP_GT=79, OP_GTS=80, OP_GTU=81, OP_GE=82, OP_GES=83, OP_GEU=84, 
+		OP_CLZ=85, OP_CTZ=86, OP_POPCNT=87, OP_NEG=88, OP_ABS=89, OP_SQRT=90, 
+		OP_CEIL=91, OP_FLOOR=92, OP_TRUNC=93, OP_NEAREST=94, OP_ADD=95, OP_SUB=96, 
+		OP_MUL=97, OP_DIV=98, OP_DIV_S=99, OP_DIV_U=100, OP_REM_S=101, OP_REM_U=102, 
+		OP_AND=103, OP_OR=104, OP_XOR=105, OP_SHL=106, OP_SHR_S=107, OP_SHR_U=108, 
+		OP_ROTL=109, OP_ROTR=110, OP_MIN=111, OP_MAX=112, OP_COPYSIGN=113, OP_WRAP=114, 
+		OP_TRUNC_=115, OP_TRUNC_SAT=116, OP_CONVERT=117, OP_EXTEND=118, OP_DEMOTE=119, 
+		OP_PROMOTE=120, OP_REINTER=121, MEMORY_SIZE=122, MEMORY_GROW=123, MEMORY_FILL=124, 
+		MEMORY_COPY=125, MEMORY_INIT=126, TEST=127, COMPARE=128, UNARY=129, BINARY=130, 
+		CONVERT=131, TYPE=132, FUNC=133, EXTERN=134, START_=135, PARAM=136, RESULT=137, 
+		LOCAL=138, GLOBAL=139, TABLE=140, MEMORY=141, ELEM=142, DATA=143, OFFSET=144, 
+		IMPORT=145, EXPORT=146, TAG=147, DECLARE=148, MODULE=149, BIN=150, QUOTE=151, 
+		DEFINITION=152, INSTANCE=153, SCRIPT=154, REGISTER=155, INVOKE=156, GET=157, 
+		ASSERT_MALFORMED=158, ASSERT_INVALID=159, ASSERT_UNLINKABLE=160, ASSERT_RETURN=161, 
+		ASSERT_RETURN_CANONICAL_NAN=162, ASSERT_RETURN_ARITHMETIC_NAN=163, ASSERT_TRAP=164, 
+		ASSERT_EXHAUSTION=165, INPUT=166, OUTPUT=167, VAR=168, V128=169, SPACE=170, 
 		COMMENT=171;
 	public static final int
-		RULE_value = 0, RULE_name = 1, RULE_numType = 2, RULE_refType = 3, RULE_vecType = 4,
-		RULE_valType = 5, RULE_heapType = 6, RULE_globalType = 7, RULE_defType = 8,
-		RULE_funcParamType = 9, RULE_funcResType = 10, RULE_funcType = 11, RULE_tableType = 12,
-		RULE_memoryType = 13, RULE_typeUse = 14, RULE_literal = 15, RULE_idx = 16,
-		RULE_bindVar = 17, RULE_instr = 18, RULE_forLoop = 19, RULE_plainInstr = 20,
-		RULE_resumeInstr = 21, RULE_handlerInstr = 22, RULE_offsetEq = 23, RULE_alignEq = 24,
-		RULE_load = 25, RULE_store = 26, RULE_selectInstr = 27, RULE_callIndirectInstr = 28,
-		RULE_callInstrParams = 29, RULE_callInstrParamsInstr = 30, RULE_callInstrResultsInstr = 31,
-		RULE_blockInstr = 32, RULE_blockType = 33, RULE_block = 34, RULE_foldedInstr = 35,
-		RULE_expr = 36, RULE_callExprType = 37, RULE_callExprParams = 38, RULE_callExprResults = 39,
-		RULE_instrList = 40, RULE_constExpr = 41, RULE_function = 42, RULE_funcFields = 43,
-		RULE_funcFieldsBody = 44, RULE_funcBody = 45, RULE_offset = 46, RULE_elem = 47,
-		RULE_table = 48, RULE_tableField = 49, RULE_data = 50, RULE_memory = 51,
-		RULE_memoryField = 52, RULE_global = 53, RULE_globalField = 54, RULE_importDesc = 55,
-		RULE_simport = 56, RULE_inlineImport = 57, RULE_exportDesc = 58, RULE_export_ = 59,
-		RULE_inlineExport = 60, RULE_tag = 61, RULE_typeDef = 62, RULE_start_ = 63,
-		RULE_moduleField = 64, RULE_module_ = 65, RULE_scriptModule = 66, RULE_action_ = 67,
-		RULE_assertion = 68, RULE_cmd = 69, RULE_instance = 70, RULE_meta = 71,
+		RULE_value = 0, RULE_name = 1, RULE_numType = 2, RULE_refType = 3, RULE_vecType = 4, 
+		RULE_valType = 5, RULE_heapType = 6, RULE_globalType = 7, RULE_defType = 8, 
+		RULE_funcParamType = 9, RULE_funcResType = 10, RULE_funcType = 11, RULE_tableType = 12, 
+		RULE_memoryType = 13, RULE_typeUse = 14, RULE_literal = 15, RULE_idx = 16, 
+		RULE_bindVar = 17, RULE_instr = 18, RULE_forLoop = 19, RULE_plainInstr = 20, 
+		RULE_resumeInstr = 21, RULE_handlerInstr = 22, RULE_offsetEq = 23, RULE_alignEq = 24, 
+		RULE_load = 25, RULE_store = 26, RULE_selectInstr = 27, RULE_callIndirectInstr = 28, 
+		RULE_callInstrParams = 29, RULE_callInstrParamsInstr = 30, RULE_callInstrResultsInstr = 31, 
+		RULE_blockInstr = 32, RULE_blockType = 33, RULE_block = 34, RULE_foldedInstr = 35, 
+		RULE_expr = 36, RULE_callExprType = 37, RULE_callExprParams = 38, RULE_callExprResults = 39, 
+		RULE_instrList = 40, RULE_constExpr = 41, RULE_function = 42, RULE_funcFields = 43, 
+		RULE_funcFieldsBody = 44, RULE_funcBody = 45, RULE_offset = 46, RULE_elem = 47, 
+		RULE_table = 48, RULE_tableField = 49, RULE_data = 50, RULE_memory = 51, 
+		RULE_memoryField = 52, RULE_global = 53, RULE_globalField = 54, RULE_importDesc = 55, 
+		RULE_simport = 56, RULE_inlineImport = 57, RULE_exportDesc = 58, RULE_export_ = 59, 
+		RULE_inlineExport = 60, RULE_tag = 61, RULE_typeDef = 62, RULE_start_ = 63, 
+		RULE_moduleField = 64, RULE_module_ = 65, RULE_scriptModule = 66, RULE_action_ = 67, 
+		RULE_assertion = 68, RULE_cmd = 69, RULE_instance = 70, RULE_meta = 71, 
 		RULE_wconst = 72, RULE_constList = 73, RULE_script = 74, RULE_module = 75;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"value", "name", "numType", "refType", "vecType", "valType", "heapType",
-			"globalType", "defType", "funcParamType", "funcResType", "funcType",
-			"tableType", "memoryType", "typeUse", "literal", "idx", "bindVar", "instr",
-			"forLoop", "plainInstr", "resumeInstr", "handlerInstr", "offsetEq", "alignEq",
-			"load", "store", "selectInstr", "callIndirectInstr", "callInstrParams",
-			"callInstrParamsInstr", "callInstrResultsInstr", "blockInstr", "blockType",
-			"block", "foldedInstr", "expr", "callExprType", "callExprParams", "callExprResults",
-			"instrList", "constExpr", "function", "funcFields", "funcFieldsBody",
-			"funcBody", "offset", "elem", "table", "tableField", "data", "memory",
-			"memoryField", "global", "globalField", "importDesc", "simport", "inlineImport",
-			"exportDesc", "export_", "inlineExport", "tag", "typeDef", "start_",
-			"moduleField", "module_", "scriptModule", "action_", "assertion", "cmd",
+			"value", "name", "numType", "refType", "vecType", "valType", "heapType", 
+			"globalType", "defType", "funcParamType", "funcResType", "funcType", 
+			"tableType", "memoryType", "typeUse", "literal", "idx", "bindVar", "instr", 
+			"forLoop", "plainInstr", "resumeInstr", "handlerInstr", "offsetEq", "alignEq", 
+			"load", "store", "selectInstr", "callIndirectInstr", "callInstrParams", 
+			"callInstrParamsInstr", "callInstrResultsInstr", "blockInstr", "blockType", 
+			"block", "foldedInstr", "expr", "callExprType", "callExprParams", "callExprResults", 
+			"instrList", "constExpr", "function", "funcFields", "funcFieldsBody", 
+			"funcBody", "offset", "elem", "table", "tableField", "data", "memory", 
+			"memoryField", "global", "globalField", "importDesc", "simport", "inlineImport", 
+			"exportDesc", "export_", "inlineExport", "tag", "typeDef", "start_", 
+			"moduleField", "module_", "scriptModule", "action_", "assertion", "cmd", 
 			"instance", "meta", "wconst", "constList", "script", "module"
 		};
 	}
@@ -86,63 +86,63 @@ public class WatParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'('", "')'", null, null, null, null, null, null, null, "'funcref'",
-			"'externref'", "'mut'", "'ref'", "'cont'", "'null'", "'nop'", "'sym_assert'",
-			"'alloc'", "'free'", "'unreachable'", "'drop'", "'block'", "'loop'",
-			"'for'", "'|'", "'end'", "'br'", "'br_if'", "'br_table'", "'return'",
-			"'if'", "'then'", "'else'", "'.select'", "'call'", "'call_indirect'",
-			"'return_call'", "'return_call_indirect'", "'ref.func'", "'call_ref'",
-			"'resume'", "'on'", "'cont.new'", "'cont.bind'", "'suspend'", "'ref.null'",
-			"'ref.is_null'", "'try'", "'catch'", "'throw'", "'resume0'", "'local.get'",
-			"'local.set'", "'local.tee'", "'global.get'", "'global.set'", null, null,
-			"'_'", "'offset='", "'align='", null, null, "'i32'", "'i64'", "'f32'",
-			"'f64'", null, null, "'.eqz'", "'.eq'", "'.ne'", "'.lt'", "'.lt_s'",
-			"'.lt_u'", "'.le'", "'.le_s'", "'.le_u'", "'.gt'", "'.gt_s'", "'.gt_u'",
-			"'.ge'", "'.ge_s'", "'.ge_u'", "'.clz'", "'.ctz'", "'.popcnt'", "'.neg'",
-			"'.abs'", "'.sqrt'", "'.ceil'", "'.floor'", "'.trunc'", "'.nearest'",
-			"'.add'", "'.sub'", "'.mul'", "'.div'", "'.div_s'", "'.div_u'", "'.rem_s'",
-			"'.rem_u'", "'.and'", "'.or'", "'.xor'", "'.shl'", "'.shr_s'", "'.shr_u'",
-			"'.rotl'", "'.rotr'", "'.min'", "'.max'", "'.copysign'", "'.wrap_'",
-			"'.trunc_'", "'.trunc_sat_'", "'.convert_'", "'.extend_'", "'.demote_'",
-			"'.promote_'", "'.reinterpret_'", "'memory.size'", "'memory.grow'", "'memory.fill'",
-			"'memory.copy'", "'memory.init'", null, null, null, null, null, "'type'",
-			"'func'", "'extern'", "'start'", "'param'", "'result'", "'local'", "'global'",
-			"'table'", "'memory'", "'elem'", "'data'", "'offset'", "'import'", "'export'",
-			"'tag'", "'declare'", "'module'", "'binary'", "'quote'", "'definition'",
-			"'instance'", "'script'", "'register'", "'invoke'", "'get'", "'assert_malformed'",
-			"'assert_invalid'", "'assert_unlinkable'", "'assert_return'", "'assert_return_canonical_nan'",
-			"'assert_return_arithmetic_nan'", "'assert_trap'", "'assert_exhaustion'",
+			null, "'('", "')'", null, null, null, null, null, null, null, "'funcref'", 
+			"'externref'", "'mut'", "'ref'", "'cont'", "'null'", "'nop'", "'sym_assert'", 
+			"'alloc'", "'free'", "'unreachable'", "'drop'", "'block'", "'loop'", 
+			"'for'", "'|'", "'end'", "'br'", "'br_if'", "'br_table'", "'return'", 
+			"'if'", "'then'", "'else'", "'.select'", "'call'", "'call_indirect'", 
+			"'return_call'", "'return_call_indirect'", "'ref.func'", "'call_ref'", 
+			"'resume'", "'on'", "'cont.new'", "'cont.bind'", "'suspend'", "'ref.null'", 
+			"'ref.is_null'", "'try'", "'catch'", "'throw'", "'resume0'", "'local.get'", 
+			"'local.set'", "'local.tee'", "'global.get'", "'global.set'", null, null, 
+			"'_'", "'offset='", "'align='", null, null, "'i32'", "'i64'", "'f32'", 
+			"'f64'", null, null, "'.eqz'", "'.eq'", "'.ne'", "'.lt'", "'.lt_s'", 
+			"'.lt_u'", "'.le'", "'.le_s'", "'.le_u'", "'.gt'", "'.gt_s'", "'.gt_u'", 
+			"'.ge'", "'.ge_s'", "'.ge_u'", "'.clz'", "'.ctz'", "'.popcnt'", "'.neg'", 
+			"'.abs'", "'.sqrt'", "'.ceil'", "'.floor'", "'.trunc'", "'.nearest'", 
+			"'.add'", "'.sub'", "'.mul'", "'.div'", "'.div_s'", "'.div_u'", "'.rem_s'", 
+			"'.rem_u'", "'.and'", "'.or'", "'.xor'", "'.shl'", "'.shr_s'", "'.shr_u'", 
+			"'.rotl'", "'.rotr'", "'.min'", "'.max'", "'.copysign'", "'.wrap_'", 
+			"'.trunc_'", "'.trunc_sat_'", "'.convert_'", "'.extend_'", "'.demote_'", 
+			"'.promote_'", "'.reinterpret_'", "'memory.size'", "'memory.grow'", "'memory.fill'", 
+			"'memory.copy'", "'memory.init'", null, null, null, null, null, "'type'", 
+			"'func'", "'extern'", "'start'", "'param'", "'result'", "'local'", "'global'", 
+			"'table'", "'memory'", "'elem'", "'data'", "'offset'", "'import'", "'export'", 
+			"'tag'", "'declare'", "'module'", "'binary'", "'quote'", "'definition'", 
+			"'instance'", "'script'", "'register'", "'invoke'", "'get'", "'assert_malformed'", 
+			"'assert_invalid'", "'assert_unlinkable'", "'assert_return'", "'assert_return_canonical_nan'", 
+			"'assert_return_arithmetic_nan'", "'assert_trap'", "'assert_exhaustion'", 
 			"'input'", "'output'", null, "'v128'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "LPAR", "RPAR", "NAT", "INT", "FLOAT", "STRING_", "VALUE_TYPE",
-			"CONST", "SYMBOLIC", "FUNCREF", "EXTERNREF", "MUT", "REF", "CONT", "NULL",
-			"NOP", "SYM_ASSERT", "ALLOC", "FREE", "UNREACHABLE", "DROP", "BLOCK",
-			"LOOP", "FOR", "VBAR", "END", "BR", "BR_IF", "BR_TABLE", "RETURN", "IF",
-			"THEN", "ELSE", "SELECT", "CALL", "CALL_INDIRECT", "RETURN_CALL", "RETURN_CALL_INDIRECT",
-			"REFFUNC", "CALLREF", "RESUME", "ON", "CONTNEW", "CONTBIND", "SUSPEND",
-			"REFNULL", "REFISNULL", "TRY", "CATCH", "THROW", "RESUME0", "LOCAL_GET",
-			"LOCAL_SET", "LOCAL_TEE", "GLOBAL_GET", "GLOBAL_SET", "LOAD", "STORE",
-			"UNDERSCORE", "OFFSET_EQ", "ALIGN_EQ", "SIGN_POSTFIX", "MEM_SIZE", "I32",
-			"I64", "F32", "F64", "IXX", "FXX", "OP_EQZ", "OP_EQ", "OP_NE", "OP_LT",
-			"OP_LTS", "OP_LTU", "OP_LE", "OP_LES", "OP_LEU", "OP_GT", "OP_GTS", "OP_GTU",
-			"OP_GE", "OP_GES", "OP_GEU", "OP_CLZ", "OP_CTZ", "OP_POPCNT", "OP_NEG",
-			"OP_ABS", "OP_SQRT", "OP_CEIL", "OP_FLOOR", "OP_TRUNC", "OP_NEAREST",
-			"OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_DIV_S", "OP_DIV_U", "OP_REM_S",
-			"OP_REM_U", "OP_AND", "OP_OR", "OP_XOR", "OP_SHL", "OP_SHR_S", "OP_SHR_U",
-			"OP_ROTL", "OP_ROTR", "OP_MIN", "OP_MAX", "OP_COPYSIGN", "OP_WRAP", "OP_TRUNC_",
-			"OP_TRUNC_SAT", "OP_CONVERT", "OP_EXTEND", "OP_DEMOTE", "OP_PROMOTE",
-			"OP_REINTER", "MEMORY_SIZE", "MEMORY_GROW", "MEMORY_FILL", "MEMORY_COPY",
-			"MEMORY_INIT", "TEST", "COMPARE", "UNARY", "BINARY", "CONVERT", "TYPE",
-			"FUNC", "EXTERN", "START_", "PARAM", "RESULT", "LOCAL", "GLOBAL", "TABLE",
-			"MEMORY", "ELEM", "DATA", "OFFSET", "IMPORT", "EXPORT", "TAG", "DECLARE",
-			"MODULE", "BIN", "QUOTE", "DEFINITION", "INSTANCE", "SCRIPT", "REGISTER",
-			"INVOKE", "GET", "ASSERT_MALFORMED", "ASSERT_INVALID", "ASSERT_UNLINKABLE",
-			"ASSERT_RETURN", "ASSERT_RETURN_CANONICAL_NAN", "ASSERT_RETURN_ARITHMETIC_NAN",
-			"ASSERT_TRAP", "ASSERT_EXHAUSTION", "INPUT", "OUTPUT", "VAR", "V128",
+			null, "LPAR", "RPAR", "NAT", "INT", "FLOAT", "STRING_", "VALUE_TYPE", 
+			"CONST", "SYMBOLIC", "FUNCREF", "EXTERNREF", "MUT", "REF", "CONT", "NULL", 
+			"NOP", "SYM_ASSERT", "ALLOC", "FREE", "UNREACHABLE", "DROP", "BLOCK", 
+			"LOOP", "FOR", "VBAR", "END", "BR", "BR_IF", "BR_TABLE", "RETURN", "IF", 
+			"THEN", "ELSE", "SELECT", "CALL", "CALL_INDIRECT", "RETURN_CALL", "RETURN_CALL_INDIRECT", 
+			"REFFUNC", "CALLREF", "RESUME", "ON", "CONTNEW", "CONTBIND", "SUSPEND", 
+			"REFNULL", "REFISNULL", "TRY", "CATCH", "THROW", "RESUME0", "LOCAL_GET", 
+			"LOCAL_SET", "LOCAL_TEE", "GLOBAL_GET", "GLOBAL_SET", "LOAD", "STORE", 
+			"UNDERSCORE", "OFFSET_EQ", "ALIGN_EQ", "SIGN_POSTFIX", "MEM_SIZE", "I32", 
+			"I64", "F32", "F64", "IXX", "FXX", "OP_EQZ", "OP_EQ", "OP_NE", "OP_LT", 
+			"OP_LTS", "OP_LTU", "OP_LE", "OP_LES", "OP_LEU", "OP_GT", "OP_GTS", "OP_GTU", 
+			"OP_GE", "OP_GES", "OP_GEU", "OP_CLZ", "OP_CTZ", "OP_POPCNT", "OP_NEG", 
+			"OP_ABS", "OP_SQRT", "OP_CEIL", "OP_FLOOR", "OP_TRUNC", "OP_NEAREST", 
+			"OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_DIV_S", "OP_DIV_U", "OP_REM_S", 
+			"OP_REM_U", "OP_AND", "OP_OR", "OP_XOR", "OP_SHL", "OP_SHR_S", "OP_SHR_U", 
+			"OP_ROTL", "OP_ROTR", "OP_MIN", "OP_MAX", "OP_COPYSIGN", "OP_WRAP", "OP_TRUNC_", 
+			"OP_TRUNC_SAT", "OP_CONVERT", "OP_EXTEND", "OP_DEMOTE", "OP_PROMOTE", 
+			"OP_REINTER", "MEMORY_SIZE", "MEMORY_GROW", "MEMORY_FILL", "MEMORY_COPY", 
+			"MEMORY_INIT", "TEST", "COMPARE", "UNARY", "BINARY", "CONVERT", "TYPE", 
+			"FUNC", "EXTERN", "START_", "PARAM", "RESULT", "LOCAL", "GLOBAL", "TABLE", 
+			"MEMORY", "ELEM", "DATA", "OFFSET", "IMPORT", "EXPORT", "TAG", "DECLARE", 
+			"MODULE", "BIN", "QUOTE", "DEFINITION", "INSTANCE", "SCRIPT", "REGISTER", 
+			"INVOKE", "GET", "ASSERT_MALFORMED", "ASSERT_INVALID", "ASSERT_UNLINKABLE", 
+			"ASSERT_RETURN", "ASSERT_RETURN_CANONICAL_NAN", "ASSERT_RETURN_ARITHMETIC_NAN", 
+			"ASSERT_TRAP", "ASSERT_EXHAUSTION", "INPUT", "OUTPUT", "VAR", "V128", 
 			"SPACE", "COMMENT"
 		};
 	}
@@ -864,7 +864,7 @@ public class WatParser extends Parser {
 					setState(218);
 					match(RPAR);
 					}
-					}
+					} 
 				}
 				setState(223);
 				_errHandler.sync(this);
@@ -958,7 +958,7 @@ public class WatParser extends Parser {
 					setState(232);
 					match(RPAR);
 					}
-					}
+					} 
 				}
 				setState(237);
 				_errHandler.sync(this);
@@ -1703,7 +1703,7 @@ public class WatParser extends Parser {
 				{
 				setState(287);
 				match(BR_TABLE);
-				setState(289);
+				setState(289); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -1719,7 +1719,7 @@ public class WatParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(291);
+					setState(291); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -2107,7 +2107,7 @@ public class WatParser extends Parser {
 					setState(361);
 					handlerInstr();
 					}
-					}
+					} 
 				}
 				setState(366);
 				_errHandler.sync(this);
@@ -2620,7 +2620,7 @@ public class WatParser extends Parser {
 					setState(414);
 					match(RPAR);
 					}
-					}
+					} 
 				}
 				setState(419);
 				_errHandler.sync(this);
@@ -2749,7 +2749,7 @@ public class WatParser extends Parser {
 					setState(442);
 					match(RPAR);
 					}
-					}
+					} 
 				}
 				setState(447);
 				_errHandler.sync(this);
@@ -2848,7 +2848,7 @@ public class WatParser extends Parser {
 					setState(458);
 					match(RPAR);
 					}
-					}
+					} 
 				}
 				setState(463);
 				_errHandler.sync(this);
@@ -3346,7 +3346,7 @@ public class WatParser extends Parser {
 						setState(529);
 						expr();
 						}
-						}
+						} 
 					}
 					setState(534);
 					_errHandler.sync(this);
@@ -3437,7 +3437,7 @@ public class WatParser extends Parser {
 						setState(554);
 						foldedInstr();
 						}
-						}
+						} 
 					}
 					setState(559);
 					_errHandler.sync(this);
@@ -3616,7 +3616,7 @@ public class WatParser extends Parser {
 					setState(585);
 					match(RPAR);
 					}
-					}
+					} 
 				}
 				setState(590);
 				_errHandler.sync(this);
@@ -3732,7 +3732,7 @@ public class WatParser extends Parser {
 					setState(607);
 					expr();
 					}
-					}
+					} 
 				}
 				setState(612);
 				_errHandler.sync(this);
@@ -3798,7 +3798,7 @@ public class WatParser extends Parser {
 					setState(613);
 					instr();
 					}
-					}
+					} 
 				}
 				setState(618);
 				_errHandler.sync(this);
@@ -4201,7 +4201,7 @@ public class WatParser extends Parser {
 					setState(663);
 					match(RPAR);
 					}
-					}
+					} 
 				}
 				setState(668);
 				_errHandler.sync(this);
@@ -7100,7 +7100,7 @@ public class WatParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(1148);
+				setState(1148); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
@@ -7110,7 +7110,7 @@ public class WatParser extends Parser {
 					moduleField();
 					}
 					}
-					setState(1150);
+					setState(1150); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==LPAR );

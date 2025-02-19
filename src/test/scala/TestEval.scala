@@ -88,9 +88,9 @@ class TestEval extends AnyFunSuite {
     testWastFile("./benchmarks/wasm/spectest/br_if.bin.wast")
   }
 
-  // test("spectest_br") {
-  //   testWastFile("./benchmarks/wasm/spectest/return_call.bin.wast")
-  // }
+  test("spectest_br") {
+    testWastFile("./benchmarks/wasm/spectest/return_call.bin.wast")
+  }
 
   // test("spectest_call") {
   //   testWastFile("./benchmarks/wasm/spectest/call.bin.wast")
@@ -103,15 +103,5 @@ class TestEval extends AnyFunSuite {
   // test("spectest_return") {
   //   testWastFile("./benchmarks/wasm/spectest/return.bin.wast")
   // }
-  
-  // can parse this file,
-  // but there's no support for ref.func, cont.new, suspend, resume to run it yet
-  // test("gen") {
-  //   testFile("./benchmarks/wasm/wasmfx/gen-stripped.wat")
-  // }
 
-  // FIXME:
-  //test("tribonacci-ret") { testFile("./benchmarks/wasm/tribonacci_ret.wat", None, Some(504)) }
-
-  // TODO: add wasm spec tests? How to utilize wast files?
 }

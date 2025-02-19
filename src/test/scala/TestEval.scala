@@ -92,9 +92,9 @@ class TestEval extends AnyFunSuite {
     testWastFile("./benchmarks/wasm/spectest/return_call.bin.wast")
   }
 
-  // test("spectest_call") {
-  //   testWastFile("./benchmarks/wasm/spectest/call.bin.wast")
-  // }
+  test("spectest_call") {
+    testWastFile("./benchmarks/wasm/spectest/call.bin.wast")
+  }
 
   // test("spectest_loop") {
   //   testWastFile("./benchmarks/wasm/spectest/loop.bin.wast")

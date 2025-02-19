@@ -34,9 +34,10 @@ sealed class ScriptRunner {
           module.funcs(index)
       })
       .get
-    val instrs = func match {
-      case FuncDef(_, FuncBodyDef(ty, _, locals, body)) => body
+    val (locals, instrs) = func match {
+      case FuncDef(_, FuncBodyDef(ty, _, locals, body)) => (locals, body)
     }
+    val frame = Frame(ArrayBuffer(args ++ locals.map(zero(_)): _*))
     val evaluator = EvaluatorFX(module)
     type Cont = evaluator.Cont[evaluator.Stack]
     type MCont = evaluator.MCont[evaluator.Stack]
@@ -44,7 +45,7 @@ sealed class ScriptRunner {
     val k: Cont = evaluator.initK
     val halt: Cont = (retStack, _, _) => retStack
     // Note: change this back to Evaluator if we are just testing original stuff
-    evaluator.evalList(instrs, List(), Frame(ArrayBuffer(args: _*)), k, List((halt, List())), List(k), List())
+    evaluator.evalList(instrs, List(), frame, k, List((halt, List())), List(k), List())
   }
 
   def runCmd(cmd: Cmd): Unit = {

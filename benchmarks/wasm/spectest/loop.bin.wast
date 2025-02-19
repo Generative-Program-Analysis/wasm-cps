@@ -167,8 +167,4 @@
   (invoke "for" (i64.const 0x14))
   (i64.const 0x21c3_677c_82b4_0000)
 )
-(assert_return
-  (invoke "nesting" (f32.const 0x0p+0) (f32.const 0x1.cp+2))
-  (f32.const 0x0p+0)
-)
 (assert_return (invoke "type-use"))

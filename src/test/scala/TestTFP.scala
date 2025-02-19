@@ -165,6 +165,10 @@ class TestTFP extends AnyFunSuite {
     testFileOutput("./benchmarks/wasm/trycatch/try_catch_call.wat", List(1, 2, 3, 3, 4, 5))
   }
 
+  test("try-catch-call-nested") {
+    testFileOutput("./benchmarks/wasm/trycatch/try_catch_call_nested.wat", List(1, 2, 3, 3, 4, 5))
+  }
+
   // SpecTest
   test("spectest_return_call") {
     testWastFile("./benchmarks/wasm/spectest/return_call.bin.wast")

@@ -148,4 +148,87 @@
 (assert_return (invoke "param") (i32.const 0x3))
 (assert_return (invoke "params") (i32.const 0x3))
 (assert_return (invoke "params-id") (i32.const 0x3))
+(assert_return (invoke "effects") (i32.const 0x1))
+(assert_return (invoke "while" (i64.const 0x0)) (i64.const 0x1))
+(assert_return (invoke "while" (i64.const 0x1)) (i64.const 0x1))
+(assert_return (invoke "while" (i64.const 0x2)) (i64.const 0x2))
+(assert_return (invoke "while" (i64.const 0x3)) (i64.const 0x6))
+(assert_return (invoke "while" (i64.const 0x5)) (i64.const 0x78))
+(assert_return
+  (invoke "while" (i64.const 0x14))
+  (i64.const 0x21c3_677c_82b4_0000)
+)
+(assert_return (invoke "for" (i64.const 0x0)) (i64.const 0x1))
+(assert_return (invoke "for" (i64.const 0x1)) (i64.const 0x1))
+(assert_return (invoke "for" (i64.const 0x2)) (i64.const 0x2))
+(assert_return (invoke "for" (i64.const 0x3)) (i64.const 0x6))
+(assert_return (invoke "for" (i64.const 0x5)) (i64.const 0x78))
+(assert_return
+  (invoke "for" (i64.const 0x14))
+  (i64.const 0x21c3_677c_82b4_0000)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x0p+0) (f32.const 0x1.cp+2))
+  (f32.const 0x0p+0)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1.cp+2) (f32.const 0x0p+0))
+  (f32.const 0x0p+0)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+0) (f32.const 0x1p+0))
+  (f32.const 0x1p+0)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+0) (f32.const 0x1p+1))
+  (f32.const 0x1p+1)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+0) (f32.const 0x1.8p+1))
+  (f32.const 0x1p+2)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+0) (f32.const 0x1p+2))
+  (f32.const 0x1.8p+2)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+0) (f32.const 0x1.9p+6))
+  (f32.const 0x1.3ecp+11)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+0) (f32.const 0x1.94p+6))
+  (f32.const 0x1.452p+11)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+1) (f32.const 0x1p+0))
+  (f32.const 0x1p+0)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1.8p+1) (f32.const 0x1p+0))
+  (f32.const 0x1p+0)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1.4p+3) (f32.const 0x1p+0))
+  (f32.const 0x1p+0)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+1) (f32.const 0x1p+1))
+  (f32.const 0x1.8p+1)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1p+1) (f32.const 0x1.8p+1))
+  (f32.const 0x1p+2)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1.cp+2) (f32.const 0x1p+2))
+  (f32.const 0x1.49e7_9ep+3)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1.cp+2) (f32.const 0x1.9p+6))
+  (f32.const 0x1.11d8_c4p+12)
+)
+(assert_return
+  (invoke "nesting" (f32.const 0x1.cp+2) (f32.const 0x1.94p+6))
+  (f32.const 0x1.452p+11)
+)
 (assert_return (invoke "type-use"))

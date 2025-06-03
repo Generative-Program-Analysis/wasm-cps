@@ -39,7 +39,7 @@ class TestEval extends AnyFunSuite {
   }
 
   // TODO: the power test can be used to test the stack
-  // For now: 2^10 works, 2^100 results in 0 (TODO: why?),
+  // For now: 2^10 works, but 2^31 * 2 = 0 and it's 0 for all the above, so maybe not a good benchmark(?)
   // and 2^1000 results in a stack overflow
   test("ack") { testFile("./benchmarks/wasm/ack.wat", Some("real_main"), ExpInt(7)) }
   test("power") { testFile("./benchmarks/wasm/pow.wat", Some("real_main"), ExpInt(1024)) }

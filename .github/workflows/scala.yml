@@ -28,7 +28,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -y git g++ cmake bison flex libboost-all-dev python3
-        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y perl minisat curl gnupg2 locales clang-11 wget
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y perl minisat curl gnupg2 locales wget
     - name: Install wasmfx-tools
       run: |
         cd third-party/wasmfx-tools

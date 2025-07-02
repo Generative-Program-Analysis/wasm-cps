@@ -33,6 +33,7 @@ jobs:
       run: |
         cd third-party/wasmfx-tools
         cargo build --release
+    - uses: sbt/setup-sbt@v1
     - name: Run tests
       run: |
         sbt 'test'
